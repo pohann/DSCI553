@@ -43,8 +43,11 @@ On the other hand, I tried to utilize the power of item-based CF by implementing
 
 Other recommender systems I tried but wasn't very successful:
 Use K-means to cluster the data and train model-based CF on each cluster (make predictions by first assign active user-business pair to nearest cluster)
-&#8594 One possible reason why this method is not working is because to do K-means clustering, all the points are naively represented by a point in Euclidean space
+
+&#8594: One possible reason why this method is not working is because to do K-means clustering, all the points are naively represented by a point in Euclidean space
+
 For certain type of business (mainly restaurants), collect extra features for these businesses (e.g., GoodforKids) and train two models: one for that type of businesss and one for all businesses
+
 --> This method is not working probably because the exclusion of some valuable information from other businesses in the first model (which is about 1/4 of the training data)
 
 Error Distribution:
