@@ -48,11 +48,16 @@ Use K-means to cluster the data and train model-based CF on each cluster (make p
 
 For certain type of business (mainly restaurants), collect extra features for these businesses (e.g., GoodforKids) and train two models: one for that type of businesss and one for all businesses
 
---> This method is not working probably because the exclusion of some valuable information from other businesses in the first model (which is about 1/4 of the training data)
+&#8594; This method is not working probably because the exclusion of some valuable information from other businesses in the first model (which is about 1/4 of the training data)
 
 Error Distribution:
->=0 and <1: 105773
->=1 and <2: 34123
->=2 and <3: 6310
->=3 and <4: 790
->=4: 0
+
+ >=0 and <1: 105773
+
+ >=1 and <2: 34123
+
+ >=2 and <3: 6310
+
+ >=3 and <4: 790
+
+ >=4: 0
