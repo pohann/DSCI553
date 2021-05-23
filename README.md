@@ -22,7 +22,7 @@ Here are the winners of this semester's competition project and their RMSE score
 
 
 | | Topics | Score |
-| ------------- | ------------- |
+| ------------- | ------------- | ------------- |
 | HW1  | Spark  | 7.6 / 7 |
 | HW2  | Frequent itemsets | 7.55 / 7 |
 | HW3 | Recommender system  | 6 / 7 |
