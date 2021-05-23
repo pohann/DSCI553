@@ -52,12 +52,12 @@ For certain type of business (mainly restaurants), collect extra features for th
 
 Error Distribution:
 
- >=0 and <1: 105773
+ \>=0 and <1: 105773
 
- >=1 and <2: 34123
+ \>=1 and <2: 34123
 
- >=2 and <3: 6310
+ \>=2 and <3: 6310
 
- >=3 and <4: 790
+ \>=3 and <4: 790
 
- >=4: 0
+ \>=4: 0
