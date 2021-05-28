@@ -514,8 +514,6 @@ if __name__ == """__main__""":
             business_frame["Day_"+str(i)] = hours_matrix[i]
         business_frame = business_frame.drop(columns=["hours"])
         print(list(business_frame.Day_1)[0:10])
-        # business_frame = business_frame.drop(columns=["RestaurantsPriceRange2", "HasTV", "GoodForKids", "NoiseLevel", "BusinessAcceptsCreditCards"])
-        # print(business_frame.isnull().values.any()) -- > no nan for other features
 
 
     print("Finished reading files for model-based CF")
@@ -532,70 +530,18 @@ if __name__ == """__main__""":
     X_test = np.array(X_test)
     Y = np.array(train_RDD.map(get_y).collect())
 
-    # X = np.array(train_RDD.map(lambda x: get_matrix_train(x, user_frame_pred, business_frame_pred)).collect())
-    # X_test = np.array(test_RDD.map(lambda x: get_matrix_test(x, user_frame_pred, business_frame_pred)).collect())
     print(X.shape)
     print("Finished preparing X and Y")
 
     duration = time.time() - start_time
     print("Duration: "+str(duration))
 
-    """
-    XGBRegressor-Two model
-    """
-    # print("start training...")
-    # import xgboost as xgb
-    # from joblib import dump, load
-    # model_list = []
-    # # train first model
-    # xgbr = xgb.XGBRegressor(verbosity=0, n_estimators=30, random_state=2, max_depth=7)
-    # xgbr.fit(X_smaller, Y_smaller)
-    # dump(xgbr, "model_smaller.md")
-    # # xgbr = load("model_smaller.md")
-    # model = deepcopy(xgbr)
-    # model_list.append(model)
-    # # train second model
-    # # xgbr = xgb.XGBRegressor(verbosity=0, n_estimators=30, random_state=2, max_depth=7)
-    # # xgbr.fit(X_all, Y_all)
-    # # dump(xgbr, "model_all.md")
-    # xgbr = load("model_all.md")
-    # model = deepcopy(xgbr)
-    # model_list.append(model)
-    # # make predictions
-    # Y_pred = []
-    # for xx in X_test:
-    #     if np.isnan(xx).any():
-    #         Y_pred.append(model_list[1].predict(np.array([xx[:8]+xx[12:]]))[0])
-    #     else:
-    #         Y_pred.append(model_list[0].predict(np.array([xx]))[0])
-    #
-    # # write results
-    # res_model = ""
-    # rows = test_RDD.collect()
-    # for i in range(len(rows)):
-    #     if Y_pred[i] < 1:
-    #         res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(1) + "\n"
-    #     elif Y_pred[i] > 5:
-    #         res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(5) + "\n"
-    #     else:
-    #         res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(
-    #             Y_pred[i]) + "\n"
-
 
     """
     XGBRegressor-Single model
     """
-    # train the model
     import xgboost as xgb
     from joblib import dump, load
-    # xgbr = xgb.XGBRegressor(verbosity=0, n_estimators=80, random_state=2, max_depth=7)
-    # X_train, X_val, Y_train, Y_val = train_test_split(X, Y, random_state=2, test_size=0.05)
-    # print("start training...")
-    # xgbr.fit(X_train, Y_train, eval_metric='rmse', eval_set=[(X_val, Y_val)], early_stopping_rounds=5)
-    # dump(xgbr, "model.md")
-
-    # xgbr = xgb.XGBRegressor(verbosity=0, n_estimators=30, random_state=2, max_depth=7)
-    # xgbr.fit(X, Y)
 
     xgbr = load("model.md")
     # make predictions
@@ -612,55 +558,6 @@ if __name__ == """__main__""":
             res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(
                 Y_pred[i]) + "\n"
 
-    # """
-    # CNN
-    # """
-    # # from tensorflow.keras.models import Sequential
-    # # from tensorflow.keras.layers import Dense, Conv1D, MaxPooling1D, Input, Flatten, Dropout
-    # # from tensorflow.keras.optimizers import Adam
-    # # from keras.regularizers import l2
-    # #
-    # # x_mean = X.mean(axis=0)
-    # # x_std = X.std(axis=0)
-    # #
-    # # X -= x_mean
-    # # X /= x_std
-    # # X_test -= x_mean
-    # # X_test /= x_std
-    # #
-    # # X = X.reshape((X.shape[0], X.shape[1], 1))
-    # # X_test = X_test.reshape((X_test.shape[0], X_test.shape[1], 1))
-    # # print(X.shape)
-    # #
-    # # model = Sequential()
-    # #
-    # # model.add(Conv1D(128, (3), activation='relu', input_shape=(X.shape[1], 1), kernel_regularizer=l2(0.05), bias_regularizer=l2(0.05)))
-    # # model.add(Dense(32, activation='relu',))
-    # # model.add(Flatten())
-    # #
-    # # # model.add(Dense(256, activation='relu', kernel_regularizer=l2(0.05), input_shape=(8, 1)))
-    # # # model.add(Dense(128, activation='relu', ))
-    # #
-    # # model.add(Dense(1, activation='linear'))
-    # #
-    # # opt = Adam(lr=1e-3, decay=1e-3 / 200)
-    # # model.compile(loss="mean_squared_error", optimizer=opt)
-    # # model.fit(x=X, y=Y, epochs=20, batch_size=200)
-    # #
-    # # predicts = model.predict(X_test)
-    # # print(predicts[0:10])
-    # #
-    # # # write results
-    # # res_model = ""
-    # # rows = test_RDD.collect()
-    # # for i in range(len(rows)):
-    # #     if predicts[i][0] < 1:
-    # #         res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(1) + "\n"
-    # #     elif predicts[i][0] > 5:
-    # #         res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(5) + "\n"
-    # #     else:
-    # #         res_model += uid_dict_reversed[rows[i][1]] + "," + bid_dict_reversed[rows[i][0]] + "," + str(
-    # #             predicts[i][0]) + "\n"
 
     """
     Final output
