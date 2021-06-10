@@ -2,7 +2,7 @@
 
 This repository stores all my submitted answers for HWs.
 
-Note that for each assignment, a maximum of 0.7 bonus point could be earn by submitting Scala point.
+Note that for each assignment, a maximum of 0.7 bonus point could be earn by submitting Scala implementations.
 
 On the other hand for competition project, any RMSE score lower than 0.98 would get full 8 points. The top six students in the class would earn extra points on top of that.
 
